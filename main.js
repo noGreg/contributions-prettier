@@ -1,8 +1,8 @@
 const app = document.getElementById("app");
 
-const table = render("div", app).css({ 
+const table = render("div", app).css({
   display: "flex",
-  flexFlow: "column"
+  flexFlow: "column",
 });
 
 const monthLabels = render("div", table).css({
@@ -41,25 +41,21 @@ const grid = render("div", contentWrap).css({
   height: "150px",
 });
 
-// Check proportion of month inside week. This means, if six of the seven days of a week is to the previous month, this week belongs to such previous month
+const setMOnthLabel = (label = false) => {
+  if (!label) label = ".";
 
-// if (previousMonthQuota > currentMonthQuota) { week belongs to previous month }
-
-const createMOnthLabel = (label) => {
-  let area = monthLabels.style.gridTemplateAreas || `"${(label + ' ').repeat(4)}"`;
+  let area = monthLabels.style.gridTemplateAreas || `"${label + " "}"`;
 
   monthLabels.style.gridTemplateAreas = area
     .replace('"', ",")
-    .replace(/\"/g, `${(' ' + label).repeat(4)}"`)
+    .replace('"', `${" " + (area === '". "' ? "" : label)}"`)
     .replace(",", '"');
 
-  render("div", monthLabels)
-    .css({ 
+  if (label !== ".")
+    render("div", monthLabels).css({
       gridArea: label,
-      textAlign: "center"
-    })
-    .textContent = label;
-}
+    }).textContent = label;
+};
 
 const createWeek = () =>
   render("div", grid).css({
@@ -95,34 +91,39 @@ const limit = Math.abs(firstMonth - 12) + firstMonth * 2;
 for (let month = firstMonth; month <= limit; month++) {
   const daysQty = new Date(currentYear, month + 1, 0).getDate();
   const firstDay = month === currentMonth ? firstDate.getDate() : 1;
-  const useFulMonth = month % 12;
-
-  createMOnthLabel(new Date(0, useFulMonth).toString().split(" ")[1]);
+  const realMonth = month % 12;
+  const monthName = new Date(0, realMonth).toString().split(" ")[1];
 
   for (let day = firstDay; day <= daysQty; day++) {
-    const date = new Date(currentYear, useFulMonth, day);
+    const date = new Date(currentYear, realMonth, day);
 
     render("div", week).css({
-      backgroundColor: colors[useFulMonth],
+      backgroundColor: colors[realMonth],
       height: "100%",
       width: "100%",
       borderRadius: "3px",
-    }).title = date.toLocaleString();
+    }).title = date.toDateString();
 
     if (
       firstDate.getFullYear() !== currentYear &&
-      useFulMonth === currentMonth &&
+      realMonth === currentMonth &&
       date.getDate() === new Date().getDate()
     )
       break;
 
     weekThrotle++;
 
+    if (weekThrotle === 1 && day === 1) setMOnthLabel(monthName);
+    if (weekThrotle === 1 && month === firstMonth && firstDay >= 7)
+      setMOnthLabel();
     if (weekThrotle === 7) {
       week = createWeek();
       weekThrotle = 0;
+
+      if (day < 7) setMOnthLabel(monthName);
+      else if (day !== daysQty) setMOnthLabel();
     }
   }
 
-  if (month === 11) currentYear++;
+  if (realMonth === 11) currentYear++;
 }
