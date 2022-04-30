@@ -30,20 +30,3 @@ function render(tag, parent, classList = undefined) {
 
     return elem;
 }
-
-/**
- * Search for the nearest sun to the given date
- * @param {Date} date 
- * @returns {Date}
- */
-function firstSundayQuest (date) {
-    const dayName = date.toString().split(" ")[0];
-    
-    if (dayName === "Sun") return date;
-
-    return firstSundayQuest(
-        new Date(date.getFullYear(), 
-        date.getMonth(), 
-        date.getDate() - 1)
-    );
-}
