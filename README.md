@@ -6,7 +6,7 @@ I will use this functionality to create an Electron app, where you can simulate 
 
 **Progress demo**
 
-![Progress demo](./progress.jpg)
+![Progress demo](./progress-1.jpg)
 
 This is a copy my contributions board status. 
 
