@@ -45,7 +45,7 @@ This is a copy my contributions board status.
     console.warn("COPIED!");
 ```
 
-**Any eedback?? 🤔 (Create issues)**
+**Any feedback?? 🤔 (Create issues)**
 
 I will appreciate any feedbacks you could give me. Thanks
 
