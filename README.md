@@ -18,9 +18,9 @@ This is a copy my contributions board status.
 4. Use object as parameter to `GitHubCalendar` class instance, located in `main.js` file.
 
 ```JavaScript
-    let calendar = document.querySelector(".js-calendar-graph-svg");
-    let wrapper = calendar.children[0];
-    let cont = {};
+    const calendar = document.querySelector(".js-calendar-graph-svg");
+    const wrapper = calendar.children[0];
+    const cont = {};
 
     for(let i = 0; i < wrapper.children.length; i++) {
         const child = wrapper.children[i];
@@ -37,7 +37,7 @@ This is a copy my contributions board status.
 
             if (level === 0) continue;
             
-            cont[formattedDate.toLocaleDateString("EN") + ""] = level;
+            cont[formattedDate.toLocaleDateString("EN")] = level;
         }
     }
 
