@@ -13,7 +13,7 @@ class GitHubCalendar {
       width: "890px",
       border: "1px solid #30363d",
       borderRadius: "5px",
-      padding: "10px 0 0 10px"
+      padding: "10px 0 0 10px",
     });
 
     this.monthLabelsWrap = render("div", table).css({
@@ -22,7 +22,7 @@ class GitHubCalendar {
       gridTemplateColumns: "repeat(53, 12px)",
       gap: "4px",
       maxWidth: "896px",
-      marginBottom: "5px"
+      marginBottom: "5px",
     });
 
     const contentWrap = render("div", table).css({ display: "flex" });
@@ -57,43 +57,48 @@ class GitHubCalendar {
   }
 
   loadDays() {
-    /**
-     * TODO: Change algorithm to render calendar. Pass it to base it on 53 weeks formula.
-     */
-    
     let currentYear = new Date().getFullYear() - 1;
-    let weekThrotle = 0;
-    let week = this.createWeek();
 
     const currentMonth = new Date().getMonth();
     const firstDate = this.firstSundayQuest(
       new Date(currentYear, currentMonth, new Date().getDate())
     );
     const firstMonth = firstDate.getMonth();
-    const weeksQty = 53;
-    const weekIncrement = weeksQty / 12;
+    const monthsLength = 12;
+    const weeksLength = 53;
+    const weekIncrement = weeksLength / monthsLength;
 
     let month = firstMonth;
+    let weekThrotle = 0;
+    let weekWrapper = this.createWeek();
 
-    for (let currentWeek = 0; currentWeek <= weeksQty; currentWeek += weekIncrement) {
+    for (
+      let currentWeek = 0;
+      currentWeek <= weeksLength;
+      currentWeek += weekIncrement
+    ) {
       const daysQty = new Date(currentYear, month + 1, 0).getDate();
       const firstDay = month === currentMonth ? firstDate.getDate() : 1;
-      const realMonth = month % 12;
+      const realMonth = month % monthsLength;
       const monthName = new Date(0, realMonth).toString().split(" ")[1];
 
       for (let day = firstDay; day <= daysQty; day++) {
         const date = new Date(currentYear, realMonth, day);
 
-        this.setDay({ date, parent: week });
+        this.setDay({ date, parent: weekWrapper });
 
         if (
           firstDate.getFullYear() !== currentYear &&
           realMonth === currentMonth &&
           date.getDate() === new Date().getDate()
         )
-         break;
+          break;
 
         weekThrotle++;
+
+        /**
+         * TODO: Fix month labels algorithm
+         */
 
         if (weekThrotle === 1) {
           day === 1 && this.setMOnthLabel(monthName);
@@ -101,7 +106,7 @@ class GitHubCalendar {
         }
 
         if (weekThrotle === 7) {
-          week = this.createWeek();
+          weekWrapper = this.createWeek();
           weekThrotle = 0;
 
           if (day < 9) this.setMOnthLabel(monthName);
@@ -117,20 +122,20 @@ class GitHubCalendar {
 
   setDay({ date, parent }) {
     const contribution = this.contributions[date.toLocaleDateString("EN")];
-    
+
     const levels = {
       0: "#161b22",
       1: "#0e4429",
       2: "#006d32",
       3: "#26a641",
       4: "#39d353",
-    }
+    };
 
     render("div", parent).css({
-        backgroundColor: contribution ? levels[contribution] : levels[0], 
-        height: "100%",
-        width: "100%",
-        borderRadius: "2px",
+      backgroundColor: contribution ? levels[contribution] : levels[0],
+      height: "100%",
+      width: "100%",
+      borderRadius: "2px",
     }).title = date.toDateString();
   }
 
