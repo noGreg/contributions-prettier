@@ -57,18 +57,25 @@ class GitHubCalendar {
   }
 
   loadDays() {
+    /**
+     * TODO: Change algorithm to render calendar. Pass it to base it on 53 weeks formula.
+     */
+    
     let currentYear = new Date().getFullYear() - 1;
     let weekThrotle = 0;
     let week = this.createWeek();
 
     const currentMonth = new Date().getMonth();
     const firstDate = this.firstSundayQuest(
-      new Date(currentYear, currentMonth + 1, 1)
+      new Date(currentYear, currentMonth, new Date().getDate())
     );
     const firstMonth = firstDate.getMonth();
-    const limit = Math.abs(firstMonth - 12) + firstMonth * 2;
+    const weeksQty = 53;
+    const weekIncrement = weeksQty / 12;
 
-    for (let month = firstMonth; month <= limit; month++) {
+    let month = firstMonth;
+
+    for (let currentWeek = 0; currentWeek <= weeksQty; currentWeek += weekIncrement) {
       const daysQty = new Date(currentYear, month + 1, 0).getDate();
       const firstDay = month === currentMonth ? firstDate.getDate() : 1;
       const realMonth = month % 12;
@@ -84,7 +91,7 @@ class GitHubCalendar {
           realMonth === currentMonth &&
           date.getDate() === new Date().getDate()
         )
-          break;
+         break;
 
         weekThrotle++;
 
@@ -97,9 +104,11 @@ class GitHubCalendar {
           week = this.createWeek();
           weekThrotle = 0;
 
-          if (day < 7) this.setMOnthLabel(monthName);
+          if (day < 9) this.setMOnthLabel(monthName);
           else if (day !== daysQty) this.setMOnthLabel();
         }
+
+        day === daysQty && month++;
       }
 
       realMonth === 11 && currentYear++;

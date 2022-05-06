@@ -6,7 +6,7 @@ I will use this functionality to create an Electron app, where you can simulate 
 
 **Progress demo**
 
-![Progress demo](./progress-1.jpg)
+![Progress demo](./src/images/progress-1.jpg)
 
 This is a copy my contributions board status. 
 
@@ -45,7 +45,7 @@ This is a copy my contributions board status.
     console.warn("COPIED!");
 ```
 
-**Any feedback?? 🤔 (Create issues)**
+**Any feedback?? 🤔 (Create issues)** 😏 
 
 I will appreciate any feedbacks you could give me. Thanks
 
