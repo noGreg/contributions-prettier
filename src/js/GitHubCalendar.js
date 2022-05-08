@@ -61,7 +61,7 @@ class GitHubCalendar {
 
     const currentMonth = new Date().getMonth();
     const firstDate = this.firstSundayQuest(
-      new Date(currentYear, currentMonth, new Date().getDate())
+      new Date(currentYear, currentMonth, new Date().getDate() + 1)
     );
     const firstMonth = firstDate.getMonth();
     const monthsLength = 12;
@@ -82,6 +82,8 @@ class GitHubCalendar {
       const realMonth = month % monthsLength;
       const monthName = new Date(0, realMonth).toString().split(" ")[1];
 
+      let isLabelSet = false;
+
       for (let day = firstDay; day <= daysQty; day++) {
         const date = new Date(currentYear, realMonth, day);
 
@@ -98,19 +100,23 @@ class GitHubCalendar {
 
         /**
          * TODO: Fix month labels algorithm
+         * ----------------------------------
+         * TODO: Use variable `isLabelSet` ⚠
          */
 
         if (weekThrotle === 1) {
-          day === 1 && this.setMOnthLabel(monthName);
-          month === firstMonth && firstDay >= 7 && this.setMOnthLabel();
+          if (day === 1) this.setMonthLabel(monthName);
+          if (day <= 14 && firstMonth === date.getMonth()) this.setMonthLabel(monthName);
+          
+          // isLabelSet = true;
         }
 
         if (weekThrotle === 7) {
           weekWrapper = this.createWeek();
           weekThrotle = 0;
 
-          if (day < 9) this.setMOnthLabel(monthName);
-          else if (day !== daysQty) this.setMOnthLabel();
+          if (day <= 7) this.setMonthLabel(monthName);
+          else if (day !== daysQty) this.setMonthLabel();
         }
 
         day === daysQty && month++;
@@ -147,7 +153,7 @@ class GitHubCalendar {
     });
   }
 
-  setMOnthLabel(label = false) {
+  setMonthLabel(label = false) {
     !label && (label = ".");
 
     let area =

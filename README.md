@@ -45,6 +45,10 @@ This is a copy my contributions board status.
     console.warn("COPIED!");
 ```
 
+**Project stack (What do I use?)**
+- CSS Grid
+- JavaScript
+
 **Any feedback?? 🤔 (Create issues)** 😏 
 
 I will appreciate any feedbacks you could give me. Thanks
