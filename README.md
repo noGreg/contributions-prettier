@@ -34,7 +34,7 @@ This is a copy my contributions board status.
 1. Go to a GitHub profile page.
 2. Open browser inspector by pressing `F12` in your keyboard, also using shortcuts such as `fn + F12` or `Ctrl + Shift + i`.
 3. Copy/paste code below in the console. The object will be copied automatically.
-4. Use object as second parameter for `GitHubCalendar` class instance, located in `main.js` file.
+4. Use object as second parameter for `GitHubCalendar` class instance, located in `./src/js/main.js` file.
 
 ```JavaScript
     const calendar = document.querySelector(".js-calendar-graph-svg");
@@ -65,8 +65,9 @@ This is a copy my contributions board status.
 ```
 
 ## **Project stack (What do I use?)**
-- CSS Grid
+- Electron
 - JavaScript
+- CSS Grid
 
 ## **Any feedback?? 🤔 If so, create issue or PR!** 😏 
 

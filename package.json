@@ -1,0 +1,23 @@
+{
+  "name": "contributions-frequency-automater",
+  "version": "1.0.0",
+  "description": "The objective of this project is to re-create a contributions calendar, as GitHub one does, but use it as playground for draw forms over it.",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/noGreg/contributions-prettier.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/noGreg/contributions-prettier/issues"
+  },
+  "homepage": "https://github.com/noGreg/contributions-prettier#readme",
+  "devDependencies": {
+    "electron": "^18.2.3"
+  }
+}
