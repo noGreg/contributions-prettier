@@ -9,7 +9,7 @@ HTMLElement.prototype.css = function(object) {
 }
 
 /**
- * Renderer for element nodes [PENDING UPDATE THIS WITH BETTER PATTERNS] ⚠
+ * Renderer for element nodes /// -*-*- //// [PENDING UPDATE THIS WITH BETTER PATTERNS] ⚠
  * @param {Sring} tag HTMLElement valid tag name
  * @param {HTMLElement} parent Element valid parent node
  * @param {String} classList Space separated class names 

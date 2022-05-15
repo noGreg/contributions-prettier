@@ -68,9 +68,9 @@ class GitHubCalendar {
     const weeksLength = 53;
     const weekIncrement = weeksLength / monthsLength;
 
+    let weekWrapper = this.createWeek();
     let month = firstMonth;
     let weekThrotle = 0;
-    let weekWrapper = this.createWeek();
 
     for (
       let currentWeek = 0;
@@ -81,8 +81,6 @@ class GitHubCalendar {
       const firstDay = month === currentMonth ? firstDate.getDate() : 1;
       const realMonth = month % monthsLength;
       const monthName = new Date(0, realMonth).toString().split(" ")[1];
-
-      let isLabelSet = false;
 
       for (let day = firstDay; day <= daysQty; day++) {
         const date = new Date(currentYear, realMonth, day);
@@ -98,25 +96,24 @@ class GitHubCalendar {
 
         weekThrotle++;
 
-        /**
-         * TODO: Fix month labels algorithm
-         * ----------------------------------
-         * TODO: Use variable `isLabelSet` ⚠
-         */
-
         if (weekThrotle === 1) {
-          if (day === 1) this.setMonthLabel(monthName);
-          if (day <= 14 && firstMonth === date.getMonth()) this.setMonthLabel(monthName);
-          
-          // isLabelSet = true;
+          if (day === 1) this.setMonthLabel(monthName, month);
+          if (day <= daysQty - 14 && firstMonth === date.getMonth()) this.setMonthLabel(monthName, month);
         }
 
         if (weekThrotle === 7) {
           weekWrapper = this.createWeek();
           weekThrotle = 0;
 
-          if (day <= 7) this.setMonthLabel(monthName);
-          else if (day !== daysQty) this.setMonthLabel();
+          if (day <= 7) this.setMonthLabel(monthName, month);
+          else if (day !== daysQty && firstMonth !== date.getMonth())
+            this.setMonthLabel();
+          else if (
+            day !== daysQty &&
+            day > 22 &&
+            firstMonth === date.getMonth()
+          )
+            this.setMonthLabel();
         }
 
         day === daysQty && month++;
@@ -153,20 +150,20 @@ class GitHubCalendar {
     });
   }
 
-  setMonthLabel(label = false) {
-    !label && (label = ".");
+  setMonthLabel(label = false, month = 0) {
+    let gridName = !label ? "." : label + month;
 
     let area =
-      this.monthLabelsWrap.style.gridTemplateAreas || `"${label + " "}"`;
+      this.monthLabelsWrap.style.gridTemplateAreas || `"${gridName + " "}"`;
 
     this.monthLabelsWrap.style.gridTemplateAreas = area
       .replace('"', ",")
-      .replace('"', `${" " + (area === '". "' ? "" : label)}"`)
+      .replace('"', `${" " + gridName}"`)
       .replace(",", '"');
 
-    if (label !== ".")
+    if (gridName !== ".")
       render("div", this.monthLabelsWrap).css({
-        gridArea: label,
+        gridArea: gridName,
       }).textContent = label;
   }
 

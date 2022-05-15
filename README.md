@@ -14,13 +14,13 @@ This is a copy my contributions board status.
 
 1. Go to a GitHub profile page.
 2. Open browser inspector by pressing `F12` in your keyboard, also using shortcuts such as `fn + F12` or `Ctrl + Shift + i`.
-3. Copy/paste code below in the console. The object will be passed to the clipboard.
-4. Use object as parameter to `GitHubCalendar` class instance, located in `main.js` file.
+3. Copy/paste code below in the console. The object will be copied automatically.
+4. Use object as second parameter for `GitHubCalendar` class instance, located in `main.js` file.
 
 ```JavaScript
     const calendar = document.querySelector(".js-calendar-graph-svg");
     const wrapper = calendar.children[0];
-    const cont = {};
+    const contributions = {};
 
     for(let i = 0; i < wrapper.children.length; i++) {
         const child = wrapper.children[i];
@@ -28,20 +28,20 @@ This is a copy my contributions board status.
         if (child.tagName !== "g") continue;
         
         for(let j = 0; j < child.children.length; j++) {
-            let date = child.children[j];
-            let year = +date.getAttribute("data-date").split("-")[0];
-            let month = +date.getAttribute("data-date").split("-")[1];
-            let day = +date.getAttribute("data-date").split("-")[2];
-            let formattedDate = new Date(year, month - 1, day);
-            let level = +date.getAttribute("data-level");
+            const date = child.children[j];
+            const year = +date.getAttribute("data-date").split("-")[0];
+            const month = +date.getAttribute("data-date").split("-")[1];
+            const day = +date.getAttribute("data-date").split("-")[2];
+            const formattedDate = new Date(year, month - 1, day);
+            const level = +date.getAttribute("data-level");
 
             if (level === 0) continue;
             
-            cont[formattedDate.toLocaleDateString("EN")] = level;
+            contributions[formattedDate.toLocaleDateString("EN")] = level;
         }
     }
 
-    copy(JSON.stringify(cont));
+    copy(JSON.stringify(contributions));
     console.warn("COPIED!");
 ```
 
