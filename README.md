@@ -11,7 +11,7 @@ I will use this functionality to create an Electron app, where you can simulate 
 | Name | Type | Description |
 | --------- | ---- | ----------- |
 | parent | HTMLElement | Parent element to render inside.
-| contributions | Object | List to turn calendar dates on. eg. `{ "4/25/2021": 4 }`, where the value `4` is the highest from numberic range `[0-4]` to indicate changes proportion.
+| contributions | Object | List to turn calendar dates on. eg. `{ "4/27/2021": 4, "4/25/2021": 2, }`, where the value `4` is the highest from numberic range `[0-4]` to indicate changes proportion.
 
 ## Methods
 
@@ -21,7 +21,7 @@ I will use this functionality to create an Electron app, where you can simulate 
 
     | Parameter | Type | Description |
     | --------- | ---- | ----------- |
-    | contributions | Object | List to turn calendar dates on. eg. `{ "4/25/2021": 4 }`, where the value `4` is the highest from numberic range `[0-4]` to indicate changes proportion. 
+    | contributions | Object | List to turn calendar dates on. eg. `{ "4/27/2021": 4, "4/25/2021": 2, }`, where the value `4` is the highest from numberic range `[0-4]` to indicate changes proportion. 
 
 ## **Progress demo**
 
@@ -35,6 +35,7 @@ This is a copy my contributions board status.
 2. Open browser inspector by pressing `F12` in your keyboard, also using shortcuts such as `fn + F12` or `Ctrl + Shift + i`.
 3. Copy/paste code below in the console. The object will be copied automatically.
 4. Use object as second parameter for `GitHubCalendar` class instance, located in `./src/js/main.js` file.
+5. Run app with `npm start` command.
 
 ```JavaScript
     const calendar = document.querySelector(".js-calendar-graph-svg");
