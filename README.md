@@ -1,16 +1,35 @@
-# Contributions prettier
+# **Contributions prettier**
 
 The objective of this project is to re-create a contributions calendar, as GitHub one does, but use it as playground for draw forms over it. 
 
 I will use this functionality to create an Electron app, where you can simulate this board into different ways and colors. Much more comes to my mind but let's see what happens. I use this project to learn and practice more, from algorithms to new enviroments such as Desktop apps.
 
-**Progress demo**
+## **GitHubCalendar Class**
+
+## Parameters
+
+| Name | Type | Description |
+| --------- | ---- | ----------- |
+| parent | HTMLElement | Parent element to render inside.
+| contributions | Object | List to turn calendar dates on. eg. `{ "4/25/2021": 4 }`, where the value `4` is the highest from numberic range `[0-4]` to indicate changes proportion.
+
+## Methods
+
+- `setContributions(contributions): void`
+
+    It will replace contributions with entered through new object parameter.
+
+    | Parameter | Type | Description |
+    | --------- | ---- | ----------- |
+    | contributions | Object | List to turn calendar dates on. eg. `{ "4/25/2021": 4 }`, where the value `4` is the highest from numberic range `[0-4]` to indicate changes proportion. 
+
+## **Progress demo**
 
 ![Progress demo](./src/images/progress-1.jpg)
 
 This is a copy my contributions board status. 
 
-**You can try it out by following bellow steps:**
+## **You can try it out by following bellow steps:**
 
 1. Go to a GitHub profile page.
 2. Open browser inspector by pressing `F12` in your keyboard, also using shortcuts such as `fn + F12` or `Ctrl + Shift + i`.
@@ -45,11 +64,11 @@ This is a copy my contributions board status.
     console.warn("COPIED!");
 ```
 
-**Project stack (What do I use?)**
+## **Project stack (What do I use?)**
 - CSS Grid
 - JavaScript
 
-**Any feedback?? 🤔 (Create issues)** 😏 
+## **Any feedback?? 🤔 If so, create issue or PR!** 😏 
 
 I will appreciate any feedbacks you could give me. Thanks
 
