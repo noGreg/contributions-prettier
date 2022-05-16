@@ -2,6 +2,10 @@ class GitHubCalendar {
   constructor(parent, contributions) {
     this.parent = parent;
     this.contributions = contributions;
+
+    this.config = {
+      weeks: 53 * 2
+    }
   }
 
   init() {
@@ -9,25 +13,13 @@ class GitHubCalendar {
 
     const table = render("div", this.parent).css({
       display: "flex",
-      flexFlow: "column",
       width: "890px",
       border: "1px solid #30363d",
       borderRadius: "5px",
       padding: "10px 0 0 10px",
     });
 
-    this.monthLabelsWrap = render("div", table).css({
-      paddingLeft: "34px",
-      display: "grid",
-      gridTemplateColumns: "repeat(53, 12px)",
-      gap: "4px",
-      maxWidth: "896px",
-      marginBottom: "5px",
-    });
-
-    const contentWrap = render("div", table).css({ display: "flex" });
-
-    const dayLabels = render("div", contentWrap).css({
+    const dayLabels = render("div", table).css({
       display: "grid",
       gridTemplateRows: "repeat(7, 12px)",
       gap: "4px",
@@ -46,17 +38,36 @@ class GitHubCalendar {
         }).textContent = i % 2 === 1 ? l : "")
     );
 
+    const rightContentWrapper = render("div", table).css({
+      // display: "flex",
+      overflowX: "auto"
+    });
+
+    const contentWrap = render("div", rightContentWrapper).css({ 
+      display: "flex",
+      flexFlow: "column"
+    });
+
+    this.monthLabelsWrap = render("div", contentWrap).css({
+      display: "grid",
+      gridTemplateColumns: `repeat(${this.config.weeks}, 12px)`,
+      gap: "4px",
+      maxWidth: "896px",
+      marginBottom: "5px",
+    });
+
+
     this.gridWrapper = render("div", contentWrap).css({
       display: "grid",
-      gridTemplateColumns: "repeat(53, 12px)",
+      gridTemplateColumns: `repeat(${this.config.weeks}, 12px)`,
       gap: "4px",
       height: "130px",
     });
 
-    this.loadDays();
+    this.renderBoard();
   }
 
-  loadDays() {
+  renderBoard() {
     let currentYear = new Date().getFullYear() - 1;
 
     const currentMonth = new Date().getMonth();
@@ -64,9 +75,8 @@ class GitHubCalendar {
       new Date(currentYear, currentMonth, new Date().getDate() + 1)
     );
     const firstMonth = firstDate.getMonth();
-    const monthsLength = 12;
-    const weeksLength = 53;
-    const weekIncrement = weeksLength / monthsLength;
+    const monthsLength = 24;
+    const weekIncrement = this.config.weeks / monthsLength;
 
     let weekWrapper = this.createWeek();
     let month = firstMonth;
@@ -74,12 +84,12 @@ class GitHubCalendar {
 
     for (
       let currentWeek = 0;
-      currentWeek <= weeksLength;
+      currentWeek <= this.config.weeks;
       currentWeek += weekIncrement
     ) {
       const daysQty = new Date(currentYear, month + 1, 0).getDate();
       const firstDay = month === currentMonth ? firstDate.getDate() : 1;
-      const realMonth = month % monthsLength;
+      const realMonth = month % 12;
       const monthName = new Date(0, realMonth).toString().split(" ")[1];
 
       for (let day = firstDay; day <= daysQty; day++) {
@@ -88,11 +98,14 @@ class GitHubCalendar {
         this.setDay({ date, parent: weekWrapper });
 
         if (
-          firstDate.getFullYear() !== currentYear &&
+          (firstDate.getFullYear() + 2) === currentYear &&
           realMonth === currentMonth &&
           date.getDate() === new Date().getDate()
         )
-          break;
+          {
+            console.log(firstDate.getFullYear(), currentYear);
+            break;
+          }
 
         weekThrotle++;
 
