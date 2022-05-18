@@ -11,7 +11,7 @@ I will use this functionality to create an Electron app, where you can simulate 
 | Name | Type | Description |
 | --------- | ---- | ----------- |
 | parent | HTMLElement | Parent element to render inside.
-| contributions | Object | List to turn calendar dates on. eg. `{ "4/27/2021": 4, "4/25/2021": 2, }`, where numeric value comes from range `[0-4]` to indicate changes proportion.
+| contributions | Object | List to turn calendar dates on. eg. `{ "4/27/2021": 4, "4/25/2021": 2, }`, where numeric value comes from range `[0-4]` to indicate changes proportion and color intensity.
 
 ### Methods
 
@@ -21,7 +21,7 @@ I will use this functionality to create an Electron app, where you can simulate 
 
     | Parameter | Type | Description |
     | --------- | ---- | ----------- |
-    | contributions | Object | List to turn calendar dates on. eg. `{ "4/27/2021": 4, "4/25/2021": 2, }`, where numeric value comes from range `[0-4]` to indicate changes proportion. 
+    | contributions | Object | List to turn calendar dates on. eg. `{ "4/27/2021": 4, "4/25/2021": 2, }`, where numeric value comes from range `[0-4]` to indicate changes proportion and color intensity. 
 
 ## **Progress demo**
 

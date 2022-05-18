@@ -4,8 +4,8 @@ class GitHubCalendar {
     this.contributions = contributions;
 
     this.config = {
-      weeks: 53 * 2
-    }
+      weeks: 53 * 2,
+    };
   }
 
   init() {
@@ -13,21 +13,21 @@ class GitHubCalendar {
 
     const table = render("div", this.parent).css({
       display: "flex",
-      width: "890px",
+      width: "100%",
       border: "1px solid #30363d",
       borderRadius: "5px",
       padding: "10px 0 0 10px",
+      boxSizing: "border-box"
     });
 
     const dayLabels = render("div", table).css({
       display: "grid",
-      gridTemplateRows: "repeat(7, 12px)",
+      gridTemplateRows: "repeat(7, 13.5px)",
       gap: "4px",
       marginRight: "5px",
-      fontSize: "13.5px",
     });
 
-    const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const weekDays = ["", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
     weekDays.forEach(
       (l, i) =>
@@ -35,17 +35,17 @@ class GitHubCalendar {
           height: "100%",
           display: "flex",
           alignItems: "center",
-        }).textContent = i % 2 === 1 ? l : "")
+        }).textContent = i % 2 === 0 ? l : "")
     );
 
     const rightContentWrapper = render("div", table).css({
-      // display: "flex",
-      overflowX: "auto"
+      flex: 1,
+      overflowX: "auto",
     });
 
-    const contentWrap = render("div", rightContentWrapper).css({ 
+    const contentWrap = render("div", rightContentWrapper).css({
       display: "flex",
-      flexFlow: "column"
+      flexFlow: "column",
     });
 
     this.monthLabelsWrap = render("div", contentWrap).css({
@@ -55,7 +55,6 @@ class GitHubCalendar {
       maxWidth: "896px",
       marginBottom: "5px",
     });
-
 
     this.gridWrapper = render("div", contentWrap).css({
       display: "grid",
@@ -75,8 +74,7 @@ class GitHubCalendar {
       new Date(currentYear, currentMonth, new Date().getDate() + 1)
     );
     const firstMonth = firstDate.getMonth();
-    const monthsLength = 24;
-    const weekIncrement = this.config.weeks / monthsLength;
+    const weekIncrement = Math.floor(this.config.weeks / 24);
 
     let weekWrapper = this.createWeek();
     let month = firstMonth;
@@ -92,6 +90,8 @@ class GitHubCalendar {
       const realMonth = month % 12;
       const monthName = new Date(0, realMonth).toString().split(" ")[1];
 
+      console.log({ realMonth, month, currentWeek });
+
       for (let day = firstDay; day <= daysQty; day++) {
         const date = new Date(currentYear, realMonth, day);
 
@@ -101,17 +101,17 @@ class GitHubCalendar {
           (firstDate.getFullYear() + 2) === currentYear &&
           realMonth === currentMonth &&
           date.getDate() === new Date().getDate()
-        )
+        ) 
           {
-            console.log(firstDate.getFullYear(), currentYear);
-            break;
-          }
+            console.log({ currentWeek, realMonth, date })
+            break;}
 
         weekThrotle++;
 
         if (weekThrotle === 1) {
           if (day === 1) this.setMonthLabel(monthName, month);
-          if (day <= daysQty - 14 && firstMonth === date.getMonth()) this.setMonthLabel(monthName, month);
+          if (day <= daysQty - 14 && firstMonth === date.getMonth())
+            this.setMonthLabel(monthName, month);
         }
 
         if (weekThrotle === 7) {
