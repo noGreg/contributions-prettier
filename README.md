@@ -35,7 +35,7 @@ This is a copy my contributions board status.
 2. Open browser inspector by pressing `F12` in your keyboard, also using shortcuts such as `fn + F12` or `Ctrl + Shift + i`.
 3. Copy/paste code below in the console. The object will be copied automatically.
 4. Use object as second parameter for `GitHubCalendar` class instance, located in `./src/js/main.js` file.
-5. Run app with `npm start` command.
+5. Build and run desktop app through command `npm start`.
 
 ```JavaScript
     const calendar = document.querySelector(".js-calendar-graph-svg");

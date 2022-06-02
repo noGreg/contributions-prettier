@@ -17,7 +17,7 @@ class GitHubCalendar {
       border: "1px solid #30363d",
       borderRadius: "5px",
       padding: "10px 0 0 10px",
-      boxSizing: "border-box"
+      boxSizing: "border-box",
     });
 
     const dayLabels = render("div", table).css({
@@ -75,10 +75,15 @@ class GitHubCalendar {
     );
     const firstMonth = firstDate.getMonth();
     const weekIncrement = Math.floor(this.config.weeks / 24);
+    // const weekIncrement = this.config.weeks / 24;
+
+    // console.log(firstDate);
 
     let weekWrapper = this.createWeek();
     let month = firstMonth;
     let weekThrotle = 0;
+
+    let currentMonthCount = 0; // ATENTION HERRE ⚠
 
     for (
       let currentWeek = 0;
@@ -86,25 +91,19 @@ class GitHubCalendar {
       currentWeek += weekIncrement
     ) {
       const daysQty = new Date(currentYear, month + 1, 0).getDate();
-      const firstDay = month === currentMonth ? firstDate.getDate() : 1;
+      const firstDay = month === firstMonth ? firstDate.getDate() : 1;
       const realMonth = month % 12;
       const monthName = new Date(0, realMonth).toString().split(" ")[1];
-
-      console.log({ realMonth, month, currentWeek });
+      const shouldStopMonths =
+        firstDate.getFullYear() + 2 === currentYear &&
+        realMonth === currentMonth;
 
       for (let day = firstDay; day <= daysQty; day++) {
         const date = new Date(currentYear, realMonth, day);
 
         this.setDay({ date, parent: weekWrapper });
 
-        if (
-          (firstDate.getFullYear() + 2) === currentYear &&
-          realMonth === currentMonth &&
-          date.getDate() === new Date().getDate()
-        ) 
-          {
-            console.log({ currentWeek, realMonth, date })
-            break;}
+        if (shouldStopMonths && date.getDate() === new Date().getDate()) break;
 
         weekThrotle++;
 
@@ -131,6 +130,8 @@ class GitHubCalendar {
 
         day === daysQty && month++;
       }
+
+      if (shouldStopMonths) break;
 
       realMonth === 11 && currentYear++;
     }
