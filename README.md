@@ -70,7 +70,9 @@ This is a copy my contributions board status.
 - JavaScript
 - CSS Grid
 
-## **Any feedback?? 🤔 If so, create issue or PR!** 😏 
+## **Any feedback?? 🤔 If so, leave an issue or PR** 😏 
 
 I will appreciate any feedbacks you could give me. Thanks
+
+
 

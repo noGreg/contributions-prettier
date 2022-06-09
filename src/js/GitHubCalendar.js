@@ -5,6 +5,7 @@ class GitHubCalendar {
 
     this.config = {
       weeks: 53 * 2,
+      isFirstLabelSet: false,
     };
   }
 
@@ -75,15 +76,10 @@ class GitHubCalendar {
     );
     const firstMonth = firstDate.getMonth();
     const weekIncrement = Math.floor(this.config.weeks / 24);
-    // const weekIncrement = this.config.weeks / 24;
-
-    // console.log(firstDate);
 
     let weekWrapper = this.createWeek();
     let month = firstMonth;
-    let weekThrotle = 0;
-
-    let currentMonthCount = 0; // ATENTION HERRE ⚠
+    let weekThrottle = 0;
 
     for (
       let currentWeek = 0;
@@ -94,7 +90,7 @@ class GitHubCalendar {
       const firstDay = month === firstMonth ? firstDate.getDate() : 1;
       const realMonth = month % 12;
       const monthName = new Date(0, realMonth).toString().split(" ")[1];
-      const shouldStopMonths =
+      const shouldStop =
         firstDate.getFullYear() + 2 === currentYear &&
         realMonth === currentMonth;
 
@@ -103,35 +99,22 @@ class GitHubCalendar {
 
         this.setDay({ date, parent: weekWrapper });
 
-        if (shouldStopMonths && date.getDate() === new Date().getDate()) break;
+        if (shouldStop && date.getDate() === new Date().getDate()) break;
 
-        weekThrotle++;
+        weekThrottle++;
 
-        if (weekThrotle === 1) {
-          if (day === 1) this.setMonthLabel(monthName, month);
-          if (day <= daysQty - 14 && firstMonth === date.getMonth())
-            this.setMonthLabel(monthName, month);
-        }
-
-        if (weekThrotle === 7) {
+        if (weekThrottle === 7) {
           weekWrapper = this.createWeek();
-          weekThrotle = 0;
+          weekThrottle = 0;
 
-          if (day <= 7) this.setMonthLabel(monthName, month);
-          else if (day !== daysQty && firstMonth !== date.getMonth())
-            this.setMonthLabel();
-          else if (
-            day !== daysQty &&
-            day > 22 &&
-            firstMonth === date.getMonth()
-          )
-            this.setMonthLabel();
+          if (day >= 7) this.setMonthLabel(monthName, month);
+          else if (day !== daysQty) this.setMonthLabel();
         }
 
         day === daysQty && month++;
       }
 
-      if (shouldStopMonths) break;
+      if (shouldStop) break;
 
       realMonth === 11 && currentYear++;
     }
@@ -167,15 +150,17 @@ class GitHubCalendar {
   setMonthLabel(label = false, month = 0) {
     let gridName = !label ? "." : label + month;
 
-    let area =
-      this.monthLabelsWrap.style.gridTemplateAreas || `"${gridName + " "}"`;
+    gridName = !this.config.isFirstLabelSet ? "" : gridName;
 
-    this.monthLabelsWrap.style.gridTemplateAreas = area
+    let area = (this.monthLabelsWrap.style.gridTemplateAreas || `"${gridName}"`)
       .replace('"', ",")
       .replace('"', `${" " + gridName}"`)
       .replace(",", '"');
 
-    if (gridName !== ".")
+    this.monthLabelsWrap.style.gridTemplateAreas = area;
+    this.config.isFirstLabelSet = true;
+
+    if (gridName && gridName !== ".")
       render("div", this.monthLabelsWrap).css({
         gridArea: gridName,
       }).textContent = label;
