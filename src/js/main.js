@@ -1,4 +1,5 @@
 const app = document.getElementById("app");
+const [calendarWrapper, optionsBar] = render(["div", 2], app);
 
 const contributions = {
   "6/5/2021": 3,
@@ -36,6 +37,6 @@ const contributions = {
   "6/2/2022": 1,
 };
 
-const calendar = new GitHubCalendar(app, contributions);
+const calendar = new GitHubCalendar(calendarWrapper, contributions);
 
 calendar.init();
