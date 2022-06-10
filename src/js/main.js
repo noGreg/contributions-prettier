@@ -40,3 +40,40 @@ const contributions = {
 const calendar = new GitHubCalendar(calendarWrapper, contributions);
 
 calendar.init();
+
+/**
+ * Action Buttons
+ */
+
+optionsBar.css({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  borderBottom: "1px solid rgb(48, 54, 61)",
+  padding: "10px 0"
+});
+
+const pencilButton = render("div", optionsBar).css({
+  height: "40px",
+  width: "40px",
+  borderRadius: "50%",
+  backgroundColor: "#0d1117",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  fontSize: "25px",
+  border: "5px solid rgb(48, 54, 61)",
+  cursor: "pointer"
+});
+
+pencilButton.textContent = "🖋";
+
+pencilButton.onclick = () => {
+  if (calendar.config.editMode) { 
+    calendar.setEditModeOff();
+    pencilButton.css({ backgroundColor: "#0d1117" });
+  } else {
+    calendar.setEditModeOn();
+    pencilButton.css({ backgroundColor: "#e67e22" });
+  }
+}

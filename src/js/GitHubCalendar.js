@@ -6,6 +6,7 @@ class GitHubCalendar {
     this.config = {
       weeks: 53 * 2,
       isFirstLabelSet: false,
+      editMode: false,
     };
   }
 
@@ -121,7 +122,7 @@ class GitHubCalendar {
   }
 
   setDay({ date, parent }) {
-    const contribution = this.contributions[date.toLocaleDateString("EN")];
+    let contribution = this.contributions[date.toLocaleDateString("EN")] || 0;
 
     const levels = {
       0: "#161b22",
@@ -131,12 +132,30 @@ class GitHubCalendar {
       4: "#39d353",
     };
 
-    render("div", parent).css({
-      backgroundColor: contribution ? levels[contribution] : levels[0],
+    const dayItem = render("div", parent).css({
+      backgroundColor: levels[contribution],
       height: "100%",
       width: "100%",
       borderRadius: "2px",
-    }).title = date.toDateString();
+    });
+
+    dayItem.title = date.toDateString();
+
+    dayItem.onclick = () => {
+      const today = new Date();
+
+      if (
+        !this.config.editMode ||
+        date.getTime() < new Date(today.setDate(today.getDate() - 1)).getTime()
+      )
+        return;
+
+      contribution++;
+
+      dayItem.css({
+        backgroundColor: levels[contribution % Object.keys(levels).length],
+      });
+    };
   }
 
   createWeek() {
@@ -176,6 +195,17 @@ class GitHubCalendar {
     );
   }
 
+  setEditModeOn() {
+    this.config.editMode = true;
+  }
+
+  setEditModeOff() {
+    this.config.editMode = false;
+  }
+
+  /**
+   * @deprecated
+   */
   setContributions(contributions) {
     this.contributions = contributions;
     this.init();
