@@ -65,6 +65,8 @@ class GitHubCalendar {
       height: "130px",
     });
 
+    this.gridWrapper.addEventListener("contextmenu", e => e.preventDefault());
+
     this.renderBoard();
   }
 
@@ -141,14 +143,19 @@ class GitHubCalendar {
 
     dayItem.title = date.toDateString();
 
-    dayItem.onclick = () => {
-      const today = new Date();
+    /**
+     * Events handling below
+     */
 
-      if (
-        !this.config.editMode ||
-        date.getTime() < new Date(today.setDate(today.getDate() - 1)).getTime()
-      )
-        return;
+    const today = new Date();
+
+    if (
+      date.getTime() < new Date(today.setDate(today.getDate() - 1)).getTime()
+    )
+      return;
+
+    dayItem.onclick = () => {
+      if (!this.config.editMode) return;
 
       contribution++;
 
@@ -156,6 +163,11 @@ class GitHubCalendar {
         backgroundColor: levels[contribution % Object.keys(levels).length],
       });
     };
+
+    dayItem.onauxclick = () =>
+      dayItem.css({
+        backgroundColor: levels[0],
+      });
   }
 
   createWeek() {
