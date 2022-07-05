@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/noGreg/contributions-prettier#readme",
   "devDependencies": {
-    "electron": "^18.2.3"
+    "electron": "^18.2.3",
+    "electron-reloader": "^1.2.3"
   }
 }

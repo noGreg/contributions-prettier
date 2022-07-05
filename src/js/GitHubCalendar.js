@@ -11,7 +11,7 @@ class GitHubCalendar {
   }
 
   init() {
-    this.parent.innerHTML = "";
+    this.parent.attr({ innerHTML: "" });
 
     const table = render("div", this.parent).css({
       display: "flex",
@@ -31,13 +31,16 @@ class GitHubCalendar {
 
     const weekDays = ["", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-    weekDays.forEach(
-      (l, i) =>
-        (render("div", dayLabels).css({
+    weekDays.forEach((l, i) =>
+      render("div", dayLabels)
+        .css({
           height: "100%",
           display: "flex",
           alignItems: "center",
-        }).textContent = i % 2 === 0 ? l : "")
+        })
+        .attr({
+          textContent: i % 2 === 0 ? l : "",
+        })
     );
 
     const rightContentWrapper = render("div", table).css({
@@ -65,7 +68,7 @@ class GitHubCalendar {
       height: "130px",
     });
 
-    this.gridWrapper.addEventListener("contextmenu", e => e.preventDefault());
+    this.gridWrapper.addEventListener("contextmenu", (e) => e.preventDefault());
 
     this.renderBoard();
   }
@@ -134,14 +137,14 @@ class GitHubCalendar {
       4: "#39d353",
     };
 
-    const dayItem = render("div", parent).css({
-      backgroundColor: levels[contribution],
-      height: "100%",
-      width: "100%",
-      borderRadius: "2px",
-    });
-
-    dayItem.title = date.toDateString();
+    const dayItem = render("div", parent)
+      .css({
+        backgroundColor: levels[contribution],
+        height: "100%",
+        width: "100%",
+        borderRadius: "2px",
+      })
+      .attr({ title: date.toDateString() });
 
     /**
      * Events handling below
@@ -149,9 +152,7 @@ class GitHubCalendar {
 
     const today = new Date();
 
-    if (
-      date.getTime() < new Date(today.setDate(today.getDate() - 1)).getTime()
-    )
+    if (date.getTime() < new Date(today.setDate(today.getDate() - 1)).getTime())
       return;
 
     dayItem.onclick = () => {
@@ -192,9 +193,11 @@ class GitHubCalendar {
     this.config.isFirstLabelSet = true;
 
     if (gridName && gridName !== ".")
-      render("div", this.monthLabelsWrap).css({
-        gridArea: gridName,
-      }).textContent = label;
+      render("div", this.monthLabelsWrap)
+        .css({
+          gridArea: gridName,
+        })
+        .attr({ textContent: label });
   }
 
   firstSundayQuest(date) {

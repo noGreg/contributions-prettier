@@ -1,11 +1,20 @@
 /**
- * Creates a new method for inserting CSS to HTMLElement
+ * Inserts CSS to element
  * @param {StylesObject}} Styles object
  * @returns {HTMLElement}
  */
 HTMLElement.prototype.css = function (object) {
   Object.assign(this.style, object);
   return this;
+};
+
+/**
+ * Inserts new properties to element
+ * @param {StylesObject}} Styles object
+ * @returns {HTMLElement}
+ */
+HTMLElement.prototype.attr = function (object) {
+  return Object.assign(this, object);
 };
 
 /**
@@ -36,3 +45,4 @@ function render(tag, parent, classList = undefined) {
         .map((t) => renderElement(t))
     : renderElement(tag);
 }
+

@@ -16,11 +16,11 @@ calendar.init();
 const bar = new Bar(optionsBar, {
   buttons: [
     {
-      icon: "🖋", 
+      icon: "🖋",
       background: "#0d1117",
       title: "Edit mode",
       onclick: (btn) => {
-        if (calendar.config.editMode) { 
+        if (calendar.config.editMode) {
           calendar.setEditModeOff();
           btn.css({ backgroundColor: "#0d1117" });
         } else {
@@ -47,5 +47,10 @@ infoContainer.css({
 
 const [first, second] = render(["div", 2],  infoContainer);
 
-first.textContent = "* Use left click to draw points";
-second.textContent = "* Use right click to erase";
+first.attr({
+  textContent: "* Use left click to draw points"
+});
+
+second.attr({
+  textContent: "* Use right click to erase"
+});
