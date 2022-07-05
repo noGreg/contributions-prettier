@@ -1,12 +1,17 @@
 class GitHubCalendar {
+  #state; 
+
   constructor(parent, contributions) {
     this.parent = parent;
-    this.contributions = contributions;
 
-    this.config = {
+    this.config = { // Deprecated
       weeks: 53 * 2,
       isFirstLabelSet: false,
       editMode: false,
+    };
+
+    this.#state = {
+      contributions: new Persister("contributions", contributions),
     };
   }
 
@@ -127,7 +132,8 @@ class GitHubCalendar {
   }
 
   setDay({ date, parent }) {
-    let contribution = this.contributions[date.toLocaleDateString("EN")] || 0;
+    let contribution =
+      this.#state.contributions.read(date.toLocaleDateString("EN")) || 0;
 
     const levels = {
       0: "#161b22",
@@ -160,15 +166,17 @@ class GitHubCalendar {
 
       contribution++;
 
+      this.#state.contributions.write(date.toLocaleDateString("EN"), contribution);
+
       dayItem.css({
         backgroundColor: levels[contribution % Object.keys(levels).length],
       });
     };
 
-    dayItem.onauxclick = () =>
-      dayItem.css({
-        backgroundColor: levels[0],
-      });
+    dayItem.onauxclick = () => {
+      this.#state.contributions.write(date.toLocaleDateString("EN"), 0);
+      dayItem.css({ backgroundColor: levels[0] });
+    };
   }
 
   createWeek() {
@@ -216,13 +224,5 @@ class GitHubCalendar {
 
   setEditModeOff() {
     this.config.editMode = false;
-  }
-
-  /**
-   * @deprecated
-   */
-  setContributions(contributions) {
-    this.contributions = contributions;
-    this.init();
   }
 }

@@ -1,5 +1,7 @@
-class Storages {
+class Persister {
   #storage;
+  #gestor;
+  #name;
 
   /**
    * Storage management class
@@ -8,11 +10,12 @@ class Storages {
    * @param {String} gestor possible values: `"localStorage"` | `"sessionStorage"`
    */
   constructor(name, initialValue, gestor = "localStorage") {
-    const gstr = window[gestor];
+    this.#gestor = window[gestor];
+    this.#name = name;
 
-    if (gstr[name]) this.#storage = JSON.parse(gstr.getItem(name));
+    if (this.#gestor[name]) this.#storage = JSON.parse(this.#gestor.getItem(name));
     else {
-      gstr.setItem(name, JSON.stringify(initialValue));
+      this.#gestor.setItem(name, JSON.stringify(initialValue));
       this.#storage = initialValue;
     }
   }
@@ -34,7 +37,8 @@ class Storages {
    * @param {Any} value
    */
   write(key, value) {
-    this.localStorage.setItem(key, value);
+    this.#storage[key] = value;
+    this.#gestor.setItem(this.#name, JSON.stringify(this.#storage));
   }
 
   deeper(keys, value = undefined) {
