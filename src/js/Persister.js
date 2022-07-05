@@ -33,7 +33,7 @@ class Persister {
 
   /**
    * Set or modify values into storage
-   * @param {String} key Possible values: `"user"` | `"user.lastName"`
+   * @param {String} key
    * @param {Any} value
    */
   write(key, value) {
