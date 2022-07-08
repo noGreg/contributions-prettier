@@ -12,6 +12,7 @@ class GitHubCalendar {
 
     this.#state = {
       contributions: new Persister("contributions", contributions),
+      user: new Persister("user", {}, "sessionStorage"),
     };
   }
 

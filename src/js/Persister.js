@@ -1,7 +1,5 @@
 class Persister {
-  #storage;
-  #gestor;
-  #name;
+  #storage; #gestor; #name;
 
   /**
    * Storage management class
@@ -10,13 +8,23 @@ class Persister {
    * @param {String} gestor possible values: `"localStorage"` | `"sessionStorage"`
    */
   constructor(name, initialValue, gestor = "localStorage") {
+    this.#init(name, initialValue, gestor);
+  }
+  
+  #init(name, value, gestor) {
+    /**
+     * TODO: 
+     * 1. Prevent receive something different to a string for "key" prop
+     * 2.Prevent receive something different to allowed string for "gestor" prop
+     */
+
     this.#gestor = window[gestor];
     this.#name = name;
-
+  
     if (this.#gestor[name]) this.#storage = JSON.parse(this.#gestor.getItem(name));
     else {
-      this.#gestor.setItem(name, JSON.stringify(initialValue));
-      this.#storage = initialValue;
+      this.#gestor.setItem(name, JSON.stringify(value));
+      this.#storage = value;
     }
   }
 
@@ -25,10 +33,12 @@ class Persister {
    * @param {String} key Possible values: `"user"` | `"user.lastName"`
    */
   read(key = undefined) {
+    // TODO: Prevent receive something different to a string
+
     if (!key) return this.#storage;
     if (this.#storage[key]) return this.#storage[key];
 
-    return key.indexOf(".") > -1 ? this.deeper(key.split(".")) : null;
+    return key.indexOf(".") > -1 ? this.#deeper(key.split(".")) : null;
   }
 
   /**
@@ -41,17 +51,25 @@ class Persister {
     this.#gestor.setItem(this.#name, JSON.stringify(this.#storage));
   }
 
-  deeper(keys, value = undefined) {
+  // This should be a private method
+
+  /**
+   * Gets deeper through object to get property value
+   * @param {Array} keys 
+   * @param {Any} value 
+   * @returns {Function}
+   */
+  #deeper(keys, value = undefined) {
     const current = keys.shift();
 
     if (!current) return value;
 
     if (value && typeof value === "object")
-      return this.deeper(keys, value[current]);
+      return this.#deeper(keys, value[current]);
 
-    return this.deeper(keys, this.#storage[current]);
+    return this.#deeper(keys, this.#storage[current]);
 
-    // ---- Dynamic version ---------------------
+    // ---- Dynamic solution ---------------------
 
     // let currentValue;
 
